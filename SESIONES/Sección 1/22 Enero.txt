@@ -1,0 +1,30 @@
+1.Objetivo de la lección: Después de hacer clic en el botón "Añadir a la cesta", el objetivo es hacer clic en el enlace de pago y luego verificar que la URL haya cambiado correctamente, lo que indicaría que hemos sido redirigidos a la página del carrito de compras.
+2. Localización del enlace de pago: Se utiliza el selector de Playwright para encontrar el enlace de pago en la página. Es importante usar la función waitFor para esperar a que el enlace esté disponible antes de interactuar con él.
+3. Ejecución de la prueba: El código se ejecuta, y se verifica que el enlace de pago funcione correctamente, pero hasta ese momento solo se ha realizado un clic, sin verificar que la URL haya cambiado.
+4. Configuración de la URL base: Se ajusta la configuración de Playwright para establecer una URL base en el archivo playwright.config.js, lo que facilita cambiar entornos (por ejemplo, desarrollo, prueba o producción) sin tener que modificar cada URL en las pruebas.
+5. Verificación de la nueva URL: Una vez que la URL base está configurada, se utiliza un método en Playwright (waitForURL) para esperar a que la URL cambie a la sección del carrito. Se afirma que la nueva URL debe incluir "/cart" para confirmar que la redirección fue exitosa.
+6. Resultado final: La prueba pasa exitosamente, asegurando que después de hacer clic en el enlace de pago, la página redirige correctamente al carrito, y la URL es la esperada.
+
+Codigo generado: Este fragmento de código busca un enlace con el texto "Checkout" en la página, espera a que el enlace esté disponible, y luego hace clic en él para proceder a la siguiente página (probablemente la página de pago o carrito). Se utilizan las funciones de Playwright getByRole, waitFor y click para asegurar que la interacción se realice correctamente.
+
+const checkoutLink = page.getByRole('link', { name: 'Checkout' })
+* page.getByRole() es una función de Playwright que busca un elemento en la página basado en su "rol" y atributos accesibles. En este caso, estamos buscando un enlace ('link' es el rol que tiene un enlace en una página web).
+* El segundo parámetro es un objeto que define más detalles sobre el enlace que estamos buscando. En este caso, { name: 'Checkout' } indica que estamos buscando un enlace cuyo texto visible sea "Checkout" (el nombre del enlace).
+**El resultado de esta búsqueda se guarda en la constante checkoutLink, que ahora contiene una referencia al enlace "Checkout" en la página.
+
+await checkoutLink.waitFor()
+* await checkoutLink.waitFor() es una espera que le indica a Playwright que debe esperar hasta que el enlace esté completamente disponible y sea interactuable. Esta espera garantiza que el enlace "Checkout" esté visible y listo para ser clicado antes de intentar interactuar con él.
+* La palabra clave await se utiliza para asegurarse de que la prueba no avance hasta que el enlace esté listo.
+
+await checkoutLink.click()
+* await checkoutLink.click() simula un clic en el enlace "Checkout". Al igual que con la espera, await asegura que la prueba no continúe hasta que el clic haya sido ejecutado y procesado correctamente en la página.
+* Esta acción generalmente lleva al usuario a la página de pago o a la página del carrito de compras, dependiendo de cómo esté configurado el sitio.
+
+await page.waitForURL("/basket")
+* Este es el valor que se espera para la URL de la página. Si tu URL base está configurada como http://localhost:2221 (por ejemplo), 
+* waitForURL("/basket") esperará a que la URL completa sea http://localhost:2221/basket.
+
+*** En la configuración se activa el campo baseURL: 'http://localhost:2221',
+
+
+

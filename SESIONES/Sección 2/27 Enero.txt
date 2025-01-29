@@ -1,0 +1,168 @@
+****28. Extracting input values
+Este video describe cómo se está desarrollando una funcionalidad para manejar direcciones guardadas en un sitio web, usando el marco de pruebas Playwright. El proceso se centra en la creación de localizadores CSS para los diferentes campos de una dirección (como nombre, apellido, calle, ciudad, código postal y país), lo que permite verificar si los valores de estos campos coinciden con los datos ingresados por el usuario.
+El objetivo es asegurarse de que, cuando un usuario agrega una nueva dirección, los datos de la primera dirección guardada se actualicen correctamente en la interfaz. Para esto, el código verifica cada uno de los campos de dirección utilizando el método input.value de Playwright para comparar el texto de las entradas con el contenido mostrado en las direcciones guardadas.
+A lo largo del video, se muestra el proceso de codificación, donde se corrigen errores y se implementan verificaciones de manera eficiente, y se enfatiza el uso de promesas para manejar el contenido dinámico de la página. Finalmente, el código se prueba y se verifica que funcione correctamente, celebrando el éxito de la implementación.
+
+*** 29. Continue to payment page
+En este video, el proceso se enfoca en automatizar el flujo de navegación de un usuario desde la página de detalles de entrega hasta la página de pago en una prueba usando Playwright. El objetivo es crear un método que haga clic en el botón de "continuar con el pago" y redirija al usuario a la página de pago.
+El tutorial muestra cómo escribir un método asincrónico llamado continuarPago, que localiza el botón de pago utilizando un selector CSS. Se utiliza una expresión regular para identificar el cambio de la URL después de hacer clic en el botón. Además, se utiliza waitFor para esperar que la página cambie correctamente antes de proceder.
+Se explica el proceso paso a paso, destacando cómo identificar los elementos del DOM, cómo trabajar con expresiones regulares en Playwright y cómo manejar el tiempo de espera para que la prueba sea más eficiente. Al final, se ejecuta la prueba, la cual pasa con éxito, confirmando que todo el flujo de pago funciona correctamente.
+
+*** 30. iframes: Grab discount code
+En esta lección, el objetivo es implementar la funcionalidad de un descuento en una página de pago, que se aplica a través de un código de descuento ingresado en un formulario. La lección aborda varios conceptos clave relacionados con la automatización de pruebas en Playwright.
+Resumen de los puntos clave:
+    Página de pago y descuento:
+        En la página de pago se muestra un precio total con un descuento especial, que varía dependiendo de cuándo se inicie el proyecto.
+        El descuento es un porcentaje que se aplica al total, y los usuarios pueden ingresar un código para activar el descuento.
+    Problema con el campo de entrada:
+        El campo de entrada donde se escribe el código de descuento tiene un problema de "lag", es decir, solo procesa una letra a la vez, lo que puede ser frustrante para el usuario.
+    Uso de iframe:
+        El campo de descuento está dentro de un iframe, que es una ventana dentro de la página que muestra contenido de otro sitio web.
+        Los iframes requieren un tratamiento especial en las pruebas de automatización, ya que no puedes seleccionar directamente los elementos dentro de un iframe sin acceder primero a este.
+    Acceso al iframe en Playwright:
+        Para interactuar con elementos dentro de un iframe, primero se debe acceder al iframe usando el método contentFrame de Playwright.
+        Una vez dentro del iframe, se puede proceder a seleccionar y llenar el campo de código de descuento, entre otros elementos.
+    Localizadores y selección de elementos:
+        El código de descuento puede ser identificado usando un localizador CSS. Para hacerlo correctamente dentro de un iframe, se debe crear un localizador de iframe (frameLocator) y luego acceder al contenido de este iframe para buscar el campo de entrada del descuento.
+Problemas y soluciones:
+    El problema de encontrar un elemento dentro del iframe se resolvió utilizando el localizador de marcos.
+    Se utilizó una clase y un atributo de datos como base para seleccionar el iframe en el código.
+Próximos pasos:
+    Después de implementar la interacción con el iframe, el siguiente paso sería lidiar con la entrada defectuosa del código de descuento. Una opción es usar un método para "pegar" el código completo si la entrada no lo permite correctamente.
+Conclusión:
+    En resumen, esta lección cubre cómo manejar iframes en Playwright para interactuar con un campo de entrada en la página de pago. El siguiente paso sería abordar la entrada del código de descuento y resolver problemas como el "lag" al escribir en el campo.
+
+*** 31. In-built retries: Input values
+En esta lección, el objetivo es introducir un código de descuento en un campo de entrada, a pesar de los problemas de lag que presenta el formulario. Se exploran varias opciones para resolver este inconveniente, y se enseña cómo usar las aserciones de Playwright para verificar que el código se haya introducido correctamente.
+Resumen de los puntos clave:
+Problema con la entrada de texto:
+    La entrada de código de descuento tiene fallos, ya que no procesa el texto correctamente cuando se escribe rápidamente. El texto se introduce de manera muy lenta o no se procesa en absoluto.
+Soluciones para introducir el texto:
+    Se presentan tres opciones para ingresar el código de descuento. La lección se centra en una de estas opciones: usar el método de relleno de texto en Playwright para introducir el código de manera eficiente.
+Obtener el código de descuento:
+    El código de descuento se obtiene mediante un localizador que extrae el texto dentro de un campo específico. Luego, se guarda este valor en una variable.
+Interacción con el campo de entrada:
+    Se utiliza un localizador para seleccionar el campo de entrada del descuento y rellenarlo con el código de descuento obtenido.
+    Se hace necesario esperar hasta que el texto sea realmente introducido en el campo, dado que la entrada tiene fallos de rendimiento.
+Uso de aserciones en Playwright:
+    Se necesita una aserción para verificar que el valor introducido en el campo de descuento es el correcto.
+    En lugar de utilizar un método básico que falla si el texto no se ingresa inmediatamente, se usa un ayudante de aserción de Playwright, que reintenta la verificación hasta que el valor correcto se encuentre en la entrada.
+Implementación del truco:
+    El truco consiste en usar una aserción que espera a que el valor de la entrada sea el esperado, solucionando así el problema del lag.
+    La solución final utiliza la función expect().toHaveValue() para asegurar que el campo de entrada contiene el código de descuento.
+Conclusión:
+    Esta lección enseña cómo superar el problema del lag en un campo de entrada utilizando Playwright. La clave para hacer funcionar la prueba es el uso adecuado de aserciones que permiten esperar de manera efectiva hasta que el valor correcto se ingrese en el campo de descuento.
+
+*** 32. Keyboard API: Simulating typing
+En esta lección, el objetivo es solucionar el problema de entrada lenta al intentar escribir el código de descuento en un formulario utilizando Playwright. Se exploran dos opciones para manejar el lag en la escritura en el campo de entrada.
+Resumen de los puntos clave:
+    Problema con la entrada lenta:
+        Al intentar escribir el código de descuento, el campo de entrada procesa muy lentamente, lo que provoca que solo se registre una parte del código al escribir rápidamente.
+        Primera opción para solucionar el problema (relleno con espera):
+
+En la lección anterior, se utilizó la técnica de relleno de texto con una espera explícita para garantizar que el texto fuera ingresado correctamente. Esta es la primera opción.
+    Segunda opción: Escribir lentamente:
+        Para simular una escritura más realista y lenta, se introduce una segunda opción utilizando el teclado virtual de Playwright.
+        Se centra el campo de entrada, y luego se usa la función page.keyboard.type() para escribir el código lentamente.
+        Se añade un retraso entre las pulsaciones de teclas, utilizando la propiedad delay (por ejemplo, 1000 milisegundos o 1 segundo entre teclas).
+Demostración de la escritura lenta:
+    Se ejecuta el código para observar cómo el campo de entrada recibe las teclas lentamente. Aunque no es la solución más eficiente, imita más fielmente lo que haría un usuario al escribir.
+Uso de expect() para verificar el valor:
+    A diferencia de la opción anterior, se utiliza una simple expectativa para verificar que el valor de la entrada es el código correcto, sin la necesidad de reintentos.
+Reflexión sobre las opciones:
+    La opción de escritura lenta es funcional, pero no la más rápida. Al final de la lección, se comenta esta opción y se prefiere la primera opción de relleno con espera, ya que es más eficiente.
+Extras:
+ Se menciona que también se puede simular la presión prolongada de teclas (como mantener pulsada la tecla Ctrl y luego presionar otra tecla, como "C" para copiar), pero se observa que este método puede causar algunos problemas y no se utiliza en esta lección.
+Conclusión:
+    La lección mostró dos métodos para manejar la entrada lenta de texto en Playwright: una escritura lenta utilizando el teclado virtual y un relleno rápido con espera. La opción de escritura lenta es más parecida a la experiencia del usuario real, pero la opción de relleno es más eficiente para estas pruebas.
+
+*** 33. In-built retries: Text changes
+En esta lección, se trabaja en la automatización de un proceso para probar que un descuento se aplica correctamente en una página web, validando la aparición de ciertos mensajes y precios.
+Pasos clave:
+    Hacer clic en el botón "Activar descuento":
+        Se localiza el botón utilizando un selector CSS basado en un atributo de datos (data).
+        Se espera que el botón esté presente y luego se hace clic en él para activar el descuento.
+    Comprobar que el descuento se activó correctamente:
+        Después de hacer clic en el botón, se espera que aparezca un mensaje de descuento activado.
+        También se espera que el precio total se haya actualizado, mostrando un nuevo precio con descuento.
+        Se compara el precio con descuento con el precio original para verificar que el descuento se ha aplicado correctamente (el precio con descuento debe ser menor).
+    Prueba del flujo:
+        Se recuperan tres elementos clave: el mensaje de descuento activado, el valor total y el valor con descuento. Luego, se configuran localizadores para estos elementos.
+        Se usa la función waitForSelector para esperar la aparición de estos elementos, y después se valida que el precio con descuento es menor que el precio original.
+    Limpieza de los valores numéricos:
+        Para comparar los precios correctamente, los valores de los precios se extraen como texto, se eliminan los signos de dólar y se convierten en números. Esto se hace utilizando funciones de JavaScript como replace para limpiar el texto y parseFloat para convertirlo a un número.
+        Verificar que el mensaje de descuento no está visible antes de hacer clic:
+Como ejercicio adicional, se verifica que el mensaje de descuento no esté visible antes de hacer clic en el botón para activar el descuento. Esto se logra utilizando la propiedad isVisible() en los elementos, comprobando que el mensaje y el precio con descuento no estén visibles inicialmente.
+    Resumen de los pasos:
+        Antes de hacer clic, se verifica que el mensaje de descuento activado y el precio con descuento no estén visibles.
+        Después de hacer clic, se asegura que el mensaje de descuento se muestre, el precio con descuento aparezca y sea menor que el precio original.
+    Resultado:
+        El código de prueba es exitoso, y la automatización funciona como se espera, validando que el descuento se aplica correctamente y que los elementos de la interfaz se muestran o no se muestran en el momento adecuado.
+Conclusión:
+    Se cubren importantes conceptos de automatización web y verificación de interfaces al trabajar con elementos dinámicos, haciendo pruebas tanto de la aparición como de la lógica de precios. El ejercicio refuerza cómo usar Playwright para interactuar con una página, verificar la visibilidad de los elementos y comparar valores para asegurarse de que el descuento funcione correctamente.
+
+
+**** 34. Form fields: Fill in credit card details
+describe los pasos para completar un flujo de pago en una prueba automatizada, especialmente en un formulario de pago que incluye detalles como el nombre del titular, número de tarjeta de crédito, fecha de vencimiento y código CVC. Aquí están los puntos clave:
+    Rellenar el formulario de pago: El objetivo es crear un objeto que contenga los detalles de pago (nombre del titular, número de tarjeta, fecha de vencimiento, y CVC). Estos valores se almacenan en un objeto dentro de un directorio de datos, similar a lo que se hizo previamente con los detalles de entrega.
+    Crear un objeto de detalles de pago: En el archivo correspondiente (por ejemplo, paymentDetails.js), se define un objeto con los valores ficticios que se usarán para el formulario. Este objeto se exporta para que pueda ser utilizado en otros archivos, como en las pruebas.
+    Importar y usar los detalles de pago: En el archivo de prueba (new_user_full_journey.spec.js), se importa el objeto de detalles de pago y se utiliza para llenar los campos en el formulario de pago mediante un método llamado fillPaymentDetails. Este método debe ser definido en la clase de la página de pago (PaymentPage), y se asegura de que los campos del formulario se llenen con los valores correctos.
+    Interacción con la página de pago: Para cada campo del formulario (como propietario de la tarjeta, número de tarjeta, etc.), el código obtiene el localizador del campo correspondiente (por ejemplo, por su marcador de posición) y luego llena el campo con los datos proporcionados en el objeto de detalles de pago.
+    Ejecutar las pruebas: Finalmente, el código ejecuta las pruebas y, al hacer todo correctamente, los campos del formulario se llenan correctamente y la prueba debería pasar exitosamente.
+En resumen, se trata de crear un objeto con los detalles de pago, integrarlo en la prueba automatizada, y usar ese objeto para llenar el formulario de pago en la página, antes de ejecutar la prueba para confirmar que todo funciona como se espera.
+
+*** 35. Complete payment
+    Hacer clic en el botón de pago: Se localiza el botón de pago usando un atributo de datos (data-q="botón de pago") y se crea un selector CSS. Este selector se agrega a la página de objetos para que se pueda usar en el método de prueba.
+    Crear un método completePayment: En la clase de la página de pago (PaymentPage), se crea un método llamado completePayment que realiza las siguientes acciones:
+    Espera a que el botón de pago esté presente.
+    Hace clic en el botón de pago.
+    Luego, espera que la URL cambie (confirmando que se ha aterrizado en la página de agradecimiento).
+    Esperar la URL con expresiones regulares: En lugar de verificar la URL completa, se usa una expresión regular para esperar una URL que comienza con /gracias. Esto se logra utilizando un patrón de regex para manejar las URLs dinámicas.
+Eliminar la pausa innecesaria: Se elimina la pausa en el método fillPaymentDetails que se había agregado previamente para esperar de manera arbitraria, mejorando la eficiencia del código.
+Ejecutar la prueba completa: Al ejecutar la prueba, el flujo de pago se completa correctamente, haciendo clic en el botón de pago, esperando que se cargue la nueva página y verificando que la prueba pase.
+Reflexión sobre el progreso: Se destaca el avance en el proyecto, con una prueba bien estructurada y legible utilizando el modelo de objetos de página, lo que facilita la comprensión de lo que está sucediendo en cada paso.
+Cierre de la sección: El instructor felicita a los estudiantes por su trabajo en esta larga sección y anticipa que en la siguiente sección se mejorarán aún más las pruebas y el código.
+En resumen, en este video se concluye el flujo de pago en la automatización con Playwright, completando la prueba con el clic en el botón de pago, la verificación de la URL de agradecimiento y la optimización del código para una ejecución más eficiente.
+
+*** 36. Mobile viewport setup
+    Objetivo: El objetivo de esta sección es hacer que la prueba funcione también en un viewport móvil, ya que algunas aplicaciones se comportan de manera diferente en dispositivos móviles en comparación con una vista de escritorio.
+    Simulación de vista móvil:
+        Se menciona cómo abrir las herramientas de desarrollo del navegador y usar la barra de herramientas de simulación de dispositivos para cambiar entre diferentes vistas de dispositivos (como iPhone, iPad, etc.).
+        En la vista móvil, se observa que algunos elementos (como el contador de la cesta) no se comportan igual, ya que el enlace de pago está oculto detrás de un botón de menú (hamburguesa) y el contador de la cesta no es visible.
+    Adaptación del código para móvil:
+        En el archivo playwright.config.js, se realiza una configuración para cambiar la vista de escritorio a la vista móvil.
+        Se comenta la configuración de la vista de escritorio para habilitar la vista móvil (por ejemplo, para Chrome en su versión móvil).
+    Ejecución de la prueba móvil:
+        Se ejecuta la prueba, la cual se visualiza correctamente en un viewport móvil. Sin embargo, falla porque el recuento de la cesta está esperando ser visible, pero en la vista móvil no está disponible debido a que el menú de navegación no está activado.
+    Errores y próximos pasos:
+        El error es claro: la prueba falla porque se espera un elemento (el contador de la cesta) que no está presente en la vista móvil.
+        En la próxima lección, se explorarán soluciones para hacer que las pruebas funcionen correctamente en la vista móvil, manejando las diferencias de comportamiento entre dispositivos de escritorio y móviles.
+En resumen, este video introduce cómo configurar y ejecutar las pruebas en un viewport móvil, lo que revela que algunos elementos no están disponibles en esa vista, y anticipa que en la siguiente lección se trabajará en cómo resolver estos problemas para las pruebas móviles.
+
+*** 37. Conditional actions: Adding a product to the basket in mobile
+    se abordan los problemas y soluciones para adaptar las pruebas a un viewport móvil, específicamente en lo relacionado con el contador de la cesta y el uso de métodos condicionales:
+    Problema con el contador de la cesta:
+        Se detectó que el método getCartCount() no funciona correctamente en el viewport móvil porque el contador de la cesta no es visible allí.
+        El fallo se muestra claramente en los registros de Playwright, que indican el lugar exacto donde ocurrió el error (línea en el objeto de página de navegación).
+    Condiciones para el uso de métodos:
+        Se plantea que este método solo debe ejecutarse en un viewport de escritorio. Para solucionar esto, se introduce una condición if para asegurarse de que el método de la cesta solo se ejecute en vistas de escritorio.
+        Se aprende a escribir una condición if que evalúa si la prueba se está ejecutando en un viewport móvil o de escritorio.
+    Función para determinar el viewport:
+        Se crea una función isDesktopViewport() que devuelve true o false según si la prueba está corriendo en un viewport de escritorio (ancho de 600 píxeles o más).
+        Esta función utiliza el método viewportSize de Playwright, que devuelve las dimensiones de la ventana gráfica, y luego evalúa el ancho para determinar si es un dispositivo móvil o de escritorio.
+    Implementación de la función:
+        La función isDesktopViewport() se integra en el código, reemplazando el valor codificado de false con la función que evalúa si es un viewport de escritorio.
+        Se ajustan los métodos para que solo se ejecuten en el viewport adecuado, y se realiza una prueba parcial que pasa correctamente en la vista móvil.
+    Prueba parcial:
+        Para facilitar la depuración, se comenta el resto de la prueba y se ejecuta solo hasta el punto donde ocurre el error en la vista móvil.
+        La prueba pasa correctamente, lo que indica que la adaptación a la vista móvil está funcionando.
+    Problema pendiente en la vista de escritorio:
+        Aunque la prueba pasó en la vista móvil, ahora hay un problema con el código relacionado con la vista de escritorio que no funciona correctamente.
+        Este problema se abordará en la siguiente lección, donde se corregirá el comportamiento para que funcione bien en ambos entornos.
+En resumen, se logró adaptar la prueba para que funcione en un viewport móvil, utilizando condiciones para controlar qué métodos se ejecutan en cada tipo de vista. Sin embargo, aún queda trabajo por hacer para solucionar los problemas en la vista de escritorio.
+
+
+*** 38. Conditional actions: Adjustments to not impact the desktop tests
+
+
+

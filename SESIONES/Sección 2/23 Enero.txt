@@ -1,0 +1,46 @@
+***16.6. Nested page object method calls**
+el objetivo es reorganizar y mejorar la estructura del código dividiendo responsabilidades en objetos de página diferentes para mayor claridad y modularidad. Aquí está el resumen:
+Reorganización del código: Se decidió mover el método que obtiene el contador de la cesta a un objeto de página separado llamado Navigation. Esto hace que la estructura del código sea más ordenada y facilita el manejo de las interacciones con la barra de navegación en cualquier página.
+Creación del objeto de página Navigation:
+Se creó un nuevo archivo llamado Navigation.js donde se define una clase Navigation con un constructor que toma la página y la asigna a la propiedad page.
+En este archivo se movió el método para obtener el contador de la cesta.
+Modificación de la página de productos:
+    En lugar de tener el método getBasketCount en la página de productos, ahora se importa la clase Navigation y se utiliza para obtener el contador de la cesta.
+Prueba:
+    Después de hacer estos cambios, se ejecutó el código para asegurarse de que todo funcione correctamente. La importación de la clase Navigation en la página de productos permitió que el código siguiera funcionando sin problemas.
+Ventajas de este enfoque:
+    Al crear un objeto de página para cada sección, como Navigation, se hace el código más modular y fácil de mantener. Cada objeto de página se encarga de una parte específica de la interfaz, lo que facilita la lectura y la prueba de los métodos.
+
+***17. Move to checkout using navigation bar**
+En esta lección, el enfoque fue crear un nuevo método para navegar desde la página de productos hasta la página de pago (caja) utilizando el objeto de página de navegación. Aquí está el resumen:
+Importación de la clase Navigation:
+    Se vuelve a importar la clase Navigation en el archivo de prueba, utilizando la sintaxis adecuada para acceder al directorio correspondiente.
+Creación de un nuevo método:
+    Se crea un nuevo método dentro del objeto de página Navigation llamado goToCheckout, que simula el clic en el enlace para ir a la página de la caja.
+    El enlace se obtiene dentro del constructor de la clase Navigation como una propiedad de la clase.
+Implementación de la navegación:
+    Se verifica si el enlace de pago existe en la página.
+    Luego, se hace clic en el enlace y se afirma que la URL de la página ha cambiado correctamente, llevándonos a la página de pago (cesta).
+Prueba y corrección de errores:
+    Durante la ejecución de la prueba, se encontró un error relacionado con la referencia a la página dentro del objeto Navigation.
+    Se corrigió el error, asegurando que la página de navegación estuviera correctamente asociada con el objeto.
+Resultado final:
+    Después de corregir el error, el test pasó correctamente, asegurando que la navegación desde la página de productos hasta la página de pago funcione como se espera.
+Resumen de aprendizaje: El objetivo principal fue mejorar la modularidad al dividir la funcionalidad en diferentes objetos de página y asegurar que las interacciones con la interfaz sean claras y fáciles de mantener. La lección también mostró cómo manejar elementos de la interfaz y cómo trabajar con enlaces de navegación para verificar el flujo de la aplicación.
+
+*** 18. Iterating over multiple elements with .map() & String replacements
+ El objetivo principal es seleccionar y eliminar el artículo más barato de la lista de productos.
+Contexto: El profesor está enseñando cómo interactuar con la página del producto, específicamente con los artículos de un carrito de compras. Hay tres productos y el desafío es identificar y eliminar el más barato.
+Proceso:
+    Primero, se crea una página de "checkout" (compra) mediante un objeto que representa la página y sus métodos.
+    Se empieza a trabajar con un localizador que permite identificar los elementos en la página, como las tarjetas de productos y los precios, utilizando herramientas de desarrollo y código en JavaScript.
+Un aspecto clave es cómo seleccionar el artículo más barato. Para ello, se hace un recorrido por los precios de los productos y se usan métodos como .map() para transformar las cadenas de texto (precios con signos de dólar) en números.
+    Con los precios convertidos en números, se puede determinar cuál es el más barato y eliminarlo del carrito.
+Detalles Técnicos:
+    El uso de métodos como textContent para obtener el contenido de las tarjetas de productos y map() para transformar las cadenas de texto en números.
+    La función replace() se utiliza para eliminar el signo de dólar de los precios antes de convertirlos en números.
+Lección de la Programación:
+    A lo largo de la lección, se enseñan conceptos clave de JavaScript, como la manipulación de arrays, el uso de funciones de transformación (map(), replace(), etc.) y cómo interactuar con el DOM (Document Object Model) para extraer y manipular datos en la página web.
+    En resumen, la lección está centrada en aprender a manipular los elementos de una página web, seleccionar el producto más barato de un carrito de compras y eliminarlo utilizando técnicas de programación en JavaScript.
+
+    

@@ -1,0 +1,72 @@
+Instalaciones
+* Se debe validar que tengamos instalado node.js y Visual studio Code
+* Se debe validar que tengamos instalado git bash 
+
+Ingresar a la TERMINAL:
+ * Digitar cd ~ (para abrir directorio)
+ * Digitar pwd (para confirmar ubicación del path)
+ * Digitar cd playwright-course (para crear carpeta del proyecto)
+ * Digitar npm version (para confirmar la versión de node)
+ * Digitar npm init playwright (para hacer la instalacion de plantillas)
+ * Seleccionar javaScrip
+ * Continuar con enter hasta que se genere instalación
+
+ Explicación del proyecto
+ * playwright.config.js (contiene toda la configuracion alguna por default como los usuarios o tiempos de respuesta para pruebas)
+ * package.json (contiene todas las dependencias)
+ * package-lock.json (para fijar las dependencias que utlizamos al momento de reinstalar)
+
+Archivo package.json: //esta propiedad permite que al ejecutar la prueba se pueda ver en navegador
+    en scripts{
+        "test": "playwright test --headed"
+    }
+
+*** Se le adiciona .skiped a los test que no queremos que se ejecute (example)   
+Pagina de guia y apoyo https://playwright.dev/docs/api/class-playwright
+ 
+
+Ejemplo nuevo pagina http://localhost:2221/ 
+    Escenario: Ingresar a la pagina y hacer seleccion de 1 producto
+ * Creamos nuevo archivo ".spec.js"
+
+Verificación de cambios en el botón "Añadir a la cesta": 
+Después de hacer clic en este botón, el texto cambia a "Quitar de la cesta" 
+y el número en la cesta aumenta. El autor muestra cómo usar aserciones para verificar estos cambios utilizando Playwright y la función expect.
+
+
+Uso de locators: 
+Se introduce el uso de locators de Playwright, que son más precisos para encontrar elementos en la página. El autor demuestra cómo seleccionar 
+elementos usando el atributo data-qa para garantizar que el selector funcione correctamente.
+
+//importa las funciones desde la biblioteca @playwright/test. 
+// test se usa para definir el bloque de prueba
+// expect es una función que permite hacer verificaciones sobre el estado de los elementos en la pagina
+import { test, expect } from "@playwright/test"	                                
+
+//define una nueva prueba utilizando la función test. 
+// El primer parámetro es el nombre de la prueba ('Product Page Add To Basket'). 
+// El segundo parámetro es una función asíncrona, que se ejecutará durante la prueba. 
+// Se utiliza async ({ page }) para desestructurar el objeto page que Playwright proporciona, permitiendo interactuar con la página
+test('Product Page Add To Basket', async ({ page }) => {
+    
+    //el código navega a la URL proporcionada 
+    //goto es una función que carga una página web en el navegador controlado por la prueba. 
+    //await se usa para esperar a que la página se cargue completamente antes de continuar con la siguiente línea de código.
+    await page.goto('localhost:2221')
+
+    //se crea un localizador para encontrar un elemento en la página que coincida con el selector CSS '[data-qa="product-button"]'. 
+    //Este busca un elemento con el atributo data-qa="product-button". 
+    //Luego, .first() se usa para seleccionar el primer elemento que coincida con este selector. 
+    // El resultado se guarda en la constante addToBasketButton.
+    const addToBasketButton = page.locator('[data-qa="product-button"]').first()
+    
+    await addToBasketButton.waitFor()                   //espera explícitamente a que el botón addToBasketButton esté disponible y cargado en la página antes de continuar. waitFor() espera hasta que el elemento esté visible y listo para interactuar con él.
+    await addToBasketButton.click()                         // se hace clic en el botón que hemos localizado previamente (addToBasketButton). El await asegura que la acción de clic se complete antes de pasar a la siguiente línea de código.
+
+    // haría un registro en la consola del número de botones con el texto 'Add to Basket' en la página. getByRole('button', { name: 'Add to Basket' }) busca botones con el texto exacto 'Add to Basket', y .count() devuelve cuántos botones coinciden con ese criterio. En este caso, está comentado, probablemente para depuración o pruebas anteriores.
+    //console.log(await page.getByRole('button',{ name:'Add to Basket'}).count())
+    
+    await expect(addToBasketButton).toHaveText("Remove from Basket")        //realiza una aserción utilizando la función expect. Se verifica que el texto del botón addToBasketButton haya cambiado a "Remove from Basket" después de hacer clic en él. toHaveText("Remove from Basket") espera que el texto del botón sea exactamente "Remove from Basket" después de la acción de clic.
+
+})
+

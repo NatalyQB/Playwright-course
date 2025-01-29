@@ -1,0 +1,37 @@
+*** 50. CI Systems: Introduction
+Introduce el concepto de Integración Continua (CI, por sus siglas en inglés), que permite ejecutar pruebas en un servidor en lugar de hacerlo directamente en el ordenador local del usuario. Se mencionan varias herramientas de CI, como Jenkins, CircleCI, Travis CI y GitHub Actions, y el enfoque se centra en las acciones de GitHub, ya que son fáciles de integrar con Git y GitHub, herramientas esenciales para almacenar código.
+El objetivo es enseñar a los usuarios a configurar un sistema donde su código se sube a GitHub y se ejecutan pruebas automáticamente sin intervención manual. El proceso permitirá al usuario ver su código ejecutándose y sus pruebas pasando o fallando sin necesidad de hacer nada, lo que facilita la automatización del flujo de trabajo de desarrollo.
+
+*** 51. Mac users only: Installing git
+se explica cómo configurar Git, una herramienta de control de versiones, para utilizarla en el proyecto. Los usuarios de Windows ya deberían tener Git instalado, ya que se incluye con la instalación de Git Bash, por lo que pueden continuar directamente con la lección.
+Los usuarios de Mac, en cambio, deben verificar si tienen Git instalado. Si al ejecutar el comando git --version en la terminal ven una versión, ya lo tienen listo. Si no, se les indica cómo instalarlo, ya sea a través de una ventana emergente que aparece al ejecutar el comando o mediante la instalación de Xcode, un conjunto de herramientas de desarrollo para Mac.
+Una vez instalado, los usuarios deben verificar nuevamente que Git está funcionando correctamente antes de continuar con la lección.
+
+*** 52. Sign up for GitHub
+se explica cómo crear una cuenta en GitHub, una plataforma esencial para almacenar y gestionar proyectos de código. Si el usuario ya tiene una cuenta, puede saltarse la lección. Para los nuevos usuarios, el proceso comienza visitando github.com, registrándose con una dirección de correo electrónico, eligiendo un nombre de usuario y una contraseña, y resolviendo un pequeño desafío de seguridad.
+Una vez completado el registro, se deben responder algunas preguntas sobre el uso personal o profesional de GitHub. Después de crear la cuenta, el siguiente paso será autenticar el ordenador con la cuenta de GitHub, lo cual se abordará en la siguiente lección.
+
+*** 53. Authentication with SSH key
+se explica cómo autenticar un ordenador con GitHub utilizando una clave SSH. Esto es necesario para que el ordenador pueda interactuar con GitHub de manera segura sin necesidad de introducir credenciales constantemente.
+El proceso comienza en la configuración de GitHub, donde se accede a la sección de "SSH y GPG keys". Allí se crea una nueva clave SSH en el terminal usando el comando ssh-keygen, que genera un par de claves pública y privada. La clave pública es la que se compartirá con GitHub.
+Luego, se verifica que la clave se haya creado correctamente en el directorio especificado, se lee el archivo de la clave pública con el comando cat, y se copia el contenido de la clave pública para agregarla en GitHub. Una vez que se inserta la clave pública en GitHub, el ordenador queda autenticado y puede interactuar con GitHub de manera segura.
+Este proceso garantiza que el equipo esté vinculado a la cuenta de GitHub y permita realizar operaciones como subir y obtener cambios del repositorio sin necesidad de ingresar la contraseña constantemente.
+ *** se ejecuta para crear firma de usuario **ssh-keygen**
+ *** sugiere un archivo donde ponerlo (C:\Users\quin15301.SIIGO/.ssh/id_rsa)
+ *** pide una contraseña vacia(no es necesario)
+ *** crea bajo la ubicación inicial
+ *** se puede ejecutar **ls C:\Users\quin15301.SIIGO/.ssh ** es un comando que enumara todos los archivos
+ *** se ejecuta **cat C:\Users\quin15301.SIIGO/.ssh **genera un token relacionado a la cuenta de github
+        ** Se copia el token y se lleva a Gighub ( settings - SSH and GPG keys - new SSH Key)
+ 
+ 
+ *** 54. Preparing the project before push to GitHub
+Se realizan algunos ajustes finales antes de subir el código a GitHub. Primero, se revisan las pruebas que se van a ejecutar. Se decide omitir algunas pruebas, como las que no se pueden ejecutar correctamente en CI (como las que dependen de una interfaz de escritorio específica) y marcar algunas como "skip" para que no causen fallos.
+Luego, se realizan cambios en la configuración del proyecto, ajustando una propiedad llamada "sólo cuatro bits" para permitir que las pruebas marcadas con "skip" se omitan sin generar errores. También se configura el uso de los navegadores móvil y de escritorio en el entorno de CI, asegurando que ambas versiones se prueben durante las ejecuciones.
+Finalmente, se ejecutan las pruebas en ambos navegadores y se confirma que todo funciona correctamente antes de continuar con el siguiente paso: subir el código a GitHub.
+
+    *** Determinar que pruebas seran ejecutadas 
+        Asociar .skyp a los que queremos que salte
+        Quitar .only para evitar fallos
+        Hacer cambios en playwriht.config.js (forbidOnly:false, )
+***

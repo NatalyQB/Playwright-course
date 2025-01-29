@@ -1,0 +1,33 @@
+Este resumen detalla un proceso de desarrollo de pruebas automatizadas para un carrito de compras en una página de productos.
+Renombrar el archivo: Primero, se renombra un archivo en el directorio de objetos de página para que coincida con el nombre de la clase utilizada, corrigiendo un error anterior.
+Agregar productos al carrito: Se agrega una nueva función llamada "Añadir producto a la cesta" que recibe un índice como argumento. Este índice se utiliza para seleccionar un producto de una lista. Se usa la indexación basada en cero (0, 1, 2...) como es común en la programación.
+Localizadores y clics: Se emplean localizadores CSS para identificar los botones de "añadir al carrito", evitando problemas previos con el texto cambiante en los botones. Se utiliza un selector para identificar el botón correspondiente al índice de producto y simular un clic.
+Refactorización y pruebas: Se refactoriza el código para organizar mejor los localizadores, creando una propiedad de "botones de añadir" en el constructor de la página del producto. Esto mejora la reutilización del código sin duplicar localizadores en varios métodos.
+Ejecución de las pruebas: Se realiza la ejecución de las pruebas y se confirma que los productos se añaden correctamente al carrito, incluso después de la refactorización del código.
+En resumen, se mejora la estructura del código, se refactorizan las funciones y se asegura la correcta automatización de la adición de productos al carrito, utilizando buenas prácticas de programación orientada a objetos.
+
+En esta lección, se mejoró lo que se hizo en la anterior, que consistía en añadir tres productos a la cesta. Sin embargo, se destacó un problema importante: no se estaban validando ciertos cambios, como el texto en los botones o el contador de la cesta, lo que es esencial para asegurar que el flujo funciona correctamente.
+Validación de cambios en el texto: Se añadió una verificación para asegurarse de que el texto del botón de "añadir a la cesta" cambia correctamente a "eliminar de la cesta" después de hacer clic en él. Para esto, se usó la función expect() de Playwright para verificar que el texto cambia correctamente antes y después de hacer clic en el botón.
+Reducción de la duplicación de código: Se detectó que había mucha repetición en el código (por ejemplo, la comprobación del texto y la acción de clic se repetían varias veces). Para mejorar esto, se creó una variable llamada addButtonSpecific para evitar duplicar las mismas líneas de código y hacer el código más limpio y manejable.
+Próximos pasos: La lección finalizó con una introducción a la próxima tarea: validar el aumento del contador de la cesta en la parte superior de la página. Esto implicará la creación de otra página de objetos.
+En resumen, la lección se centró en mejorar la validación de la interacción con la cesta, reducir la repetición de código y preparar el terreno para futuras verificaciones, como el contador de la cesta.
+
+En esta lección, se enseñó cómo verificar que el contador de productos en la cesta cambia correctamente cada vez que se agrega un producto. Aquí está un resumen de los pasos clave y conceptos abordados:
+Propiedad del contador de la cesta:
+Se creó una propiedad llamada basketCount para localizar el contador en la parte superior de la página que indica cuántos productos están en la cesta.
+Método para obtener el contador:
+Se definió un nuevo método getBasketCount, que obtiene el texto interior del elemento del contador de la cesta. Este valor es siempre una cadena, por lo que se convierte a un número usando parseInt() para permitir comparaciones numéricas.
+Incremento del contador:
+Se afirmó que, después de agregar un producto a la cesta, el contador debería incrementarse. Primero se obtiene el contador antes de añadir el producto, luego se hace clic en el botón de añadir y finalmente se obtiene el contador nuevamente para confirmar que ha aumentado.
+Uso de métodos dentro de la misma clase:
+Se mostró cómo llamar a métodos dentro de la misma clase de objetos de página, como llamar a getBasketCount antes y después de añadir un producto a la cesta.
+Esperas y afirmaciones:
+Se usaron await para asegurarse de que las acciones y verificaciones se realicen de manera síncrona y correcta. También se usó expect() para verificar que el contador después de añadir un producto sea mayor que antes de añadirlo.
+Pruebas y ejecución:
+Se ejecutaron las pruebas para asegurarse de que todo funciona correctamente, demostrando que el contador se incrementa al agregar un producto.
+Resumen de los conceptos clave:
+Obtener el texto interior de un elemento: Se utiliza locator.innerText() para obtener el texto de un elemento, que luego se convierte en número usando parseInt().
+Afirmaciones: Usando expect(), se compara el valor del contador antes y después de añadir un producto para verificar que efectivamente aumente.
+Uso de funciones asíncronas: Se utilizaron funciones asíncronas para manejar promesas y esperar a que los elementos estén disponibles para interactuar con ellos.
+En la próxima lección, se planea mover el manejo del contador de la cesta a un nuevo objeto de página para organizar mejor el código y separar las responsabilidades.
+

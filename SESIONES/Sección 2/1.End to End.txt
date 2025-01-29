@@ -1,0 +1,24 @@
+se explica cómo se va a construir una prueba de extremo a 
+extremo (E2E) utilizando Playwright. El objetivo es crear un flujo completo que simule la experiencia de un usuario en un sitio web de compras
+1. Prueba de extremo a extremo:
+    * En lugar de realizar pruebas aisladas (como añadir un solo artículo al carrito), se va a simular un recorrido completo del usuario.
+    * El flujo incluirá agregar varios productos al carrito, eliminar el más barato, ir a la caja y registrarse si el usuario no está autenticado.
+2. Flujo detallado:
+    * El recorrido completo incluirá:
+        * Añadir tres productos al carrito.
+        * Eliminar el producto más barato.
+        * Ir a la caja y, si es necesario, registrarse como un nuevo usuario.
+        * Ingresar detalles de pago (simulados) y completar la compra.
+        * Verificar la recepción del correo electrónico de confirmación.
+3. Modelo de objeto de página:
+    * Aunque el recorrido será detallado, el código de la prueba se escribirá de manera más abstracta y estructurada, usando pseudocódigo para describir las acciones en lugar de detallar cada paso.
+    * Esto hará que las pruebas sean más legibles y fáciles de mantener.
+4. Próximos pasos:
+    * En la siguiente lección, se explicará cómo llevar a cabo esta prueba de forma más estructurada, manteniendo la claridad y ocultando los detalles de implementación que hacen que el código se vuelva complejo.
+
+Se reagrupa especificamente lo que se requiere tocar 
+productPage.visit()
+productPage.sortProductByCheapest()
+productPage.addItemToBasket(1)
+navigation.movetoCheckout()
+basket.removeCheapestItem()

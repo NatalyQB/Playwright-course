@@ -1,0 +1,130 @@
+*** 41. Cookies and browser storage
+En esta lección, se introduce el concepto de inyección de cookies, una técnica importante en el contexto de pruebas y seguridad de sitios web. Se explica cómo funcionan las cookies y cómo los sitios web las utilizan para gestionar las sesiones de usuario, permitiendo que un usuario permanezca conectado a pesar de cerrar el navegador.
+Las cookies son pequeños archivos almacenados en el navegador que contienen información de la sesión, como tokens de autenticación. Cuando inicias sesión en un sitio web, este genera una cookie con un token que te mantiene autenticado. Si se tiene esta cookie, no es necesario volver a iniciar sesión para acceder a ciertas páginas, como la de "mi cuenta". En el caso de que borres la cookie, tendrías que volver a iniciar sesión para generar una nueva cookie.
+El proceso de inyección de cookies implica insertar manualmente una cookie con el valor correcto en el navegador, lo que permite simular que el usuario está conectado, ahorrando el paso de iniciar sesión de forma repetida.
+En el ejemplo proporcionado, se observa cómo un servidor responde a una solicitud de inicio de sesión enviando un token de autenticación, que luego se guarda en las cookies del navegador. Esta cookie es la que permite que el usuario acceda a páginas protegidas sin necesidad de iniciar sesión nuevamente.
+El siguiente paso en las lecciones será aprender cómo usar herramientas como Playwright para automatizar la inyección de cookies en el navegador, lo cual facilita las pruebas y agiliza el proceso de validación de aplicaciones web.
+
+*** 42. My Account page __ creacion my_account.spec.js
+En esta lección, se introduce la creación de una prueba automatizada utilizando Playwright para simular el acceso a la página "Mi cuenta" sin necesidad de pasar por el proceso de inicio de sesión. El objetivo es inyectar cookies para evitar tener que iniciar sesión manualmente cada vez.
+El proceso comienza con la creación de un archivo de prueba donde se define una función que, al ejecutarse, abrirá la página de "Mi cuenta". Para lograr esto, se sigue la estructura de objetos de página previamente utilizada, creando una clase MiCuenta que maneja la navegación a dicha página.
+Sin embargo, al ejecutar la prueba, la página redirige al usuario al formulario de inicio de sesión, ya que no hay ninguna cookie configurada en el navegador. Esto se debe a que aún no se ha inyectado la cookie de sesión necesaria.
+El siguiente paso será en la próxima lección: crear una solicitud para obtener el token de autenticación y poder inyectar la cookie que permitirá saltarse el proceso de inicio de sesión.
+
+***API/Network requests with third-party dependencies, handling JSON - Part 1
+En este primer video sobre cómo hacer una solicitud de red, el objetivo es obtener un token de inicio de sesión y luego inyectarlo en el navegador para evitar la necesidad de un inicio de sesión manual.
+Petición de Red:
+    Se explica cómo hacer una solicitud para obtener un token de inicio de sesión, que se enviará a través de una solicitud POST con un payload (cuerpo de la solicitud).
+    Se muestra cómo usar herramientas como Postman para simular la solicitud y obtener el token en formato JSON.
+Uso de node-fetch:
+    Para hacer solicitudes en el código, se utiliza la dependencia node-fetch, que permite realizar solicitudes HTTP desde JavaScript.
+    Se explica cómo instalar esta dependencia en el proyecto usando el comando npm install node-fetch@2.6.7, especificando una versión específica de la librería.
+Preparación del Código:
+    Se crea una nueva carpeta llamada api-calls para almacenar el código relacionado con las solicitudes de red.
+    Se escribe una función getLoginToken que realiza la solicitud para obtener el token de inicio de sesión y lo imprime en consola para verificar su funcionamiento.
+Uso de node-fetch en la Función:
+    La función getLoginToken usa node-fetch para realizar la solicitud POST, pasando la URL del endpoint y el cuerpo de la solicitud.
+    Se muestra cómo importar y utilizar node-fetch para hacer la petición.
+Próximo Paso:
+    Aunque el código está en progreso, no está completamente terminado en este video. Se menciona que se continuará trabajando en la correcta configuración del cuerpo de la solicitud y otros detalles en el siguiente video.
+    El enfoque en este video es configurar correctamente la infraestructura para realizar solicitudes de red y trabajar con la respuesta para obtener el token de inicio de sesión, que será utilizado en pruebas futuras.
+
+*** 44. API/Network requests, handling JSON - Part 2
+En este video, se finaliza la implementación para obtener el token de inicio de sesión y manejar posibles errores en la solicitud de red:
+Obtener el Token de la Respuesta:
+    Se explica cómo extraer el token de la respuesta JSON usando el método .json(), que convierte el cuerpo de la respuesta en un objeto JavaScript. Luego, se devuelve la propiedad token de este objeto.
+Uso de JSON.stringify:
+    Se introduce el método JSON.stringify() para convertir un objeto JSON en una cadena de texto, lo que facilita su visualización en la terminal y permite verificar su formato.
+Manejo de Errores en la Solicitud:
+    Se aborda la gestión de errores, explicando cómo verificar el código de estado de la respuesta. Si el estado no es 200 (lo que indica éxito), se lanza un error usando throw new Error(). Esto asegura que si algo sale mal, el código se detenga y el error sea manejado de forma clara.
+Verificación en la Terminal:
+    Al ejecutar la prueba en la terminal, se confirma que el token de inicio de sesión se imprime correctamente, lo que indica que la solicitud y la extracción del token han sido exitosas.
+Próximos Pasos:
+    Aunque por ahora solo se está imprimiendo el token, en el próximo video se utilizará este token en las pruebas para inyectarlo en el navegador y continuar con el flujo de trabajo.
+Este video completa el proceso de obtener el token y prepara el terreno para su uso en las siguientes etapas de la automatización de pruebas.
+
+*** 45. Page scripts: Injecting cookies into the browse
+En este video, se muestra cómo inyectar un token de inicio de sesión en una página web utilizando Playwright y JavaScript.
+    Uso de la consola del navegador: Se explica cómo interactuar con la consola del navegador y ejecutar código JavaScript directamente en una página web. Esto incluye la capacidad de manipular cookies, como asignar un valor a una cookie, lo que es útil para simular el inicio de sesión en una página.
+    Inyección de cookies con Playwright: La tarea principal es inyectar el token de inicio de sesión en la página a través de cookies. Se enseña cómo usar el método page.evaluate() de Playwright para ejecutar código JavaScript en el navegador. Esto permite asignar una cookie con el token de inicio de sesión en lugar de pasar por todo el proceso de inicio de sesión en la interfaz de usuario.
+    Manejo de variables externas: Se muestra cómo manejar variables externas dentro de la función evaluate(), dado que JavaScript ejecutado en el navegador no puede acceder directamente a las variables definidas fuera de su contexto. Se pasa la variable loginToken a través de la lista de argumentos en el segundo parámetro de evaluate().
+    Verificación del proceso: Después de inyectar la cookie, se realiza una prueba para asegurarse de que la inyección fue exitosa. Se espera un elemento en la página (por ejemplo, un encabezado) para confirmar que se ha llegado correctamente a la página de "Mi Cuenta" sin necesidad de pasar por el flujo de inicio de sesión.
+    Ventajas de esta técnica: Este enfoque permite omitir pasos innecesarios en el flujo de autenticación, lo que puede ahorrar tiempo en pruebas automáticas y en aplicaciones donde el acceso rápido es necesario sin repetir el proceso de inicio de sesión.
+En resumen, el video enseña cómo utilizar Playwright para inyectar un token de sesión como una cookie y cómo manejar este proceso de manera eficiente usando JavaScript dentro de un navegador.
+
+*** 46. Reusable API helpers
+El resumen de esta sección trata sobre cómo refactorizar el código para mejorar la seguridad en el almacenamiento de datos sensibles, como el nombre de usuario y la contraseña. El enfoque es evitar guardar información confidencial directamente en el código, especialmente porque se planea subir el proyecto a GitHub y no se quiere exponer esta información.
+Refactorización de la función de inicio de sesión: Se cambia la función para que acepte el nombre de usuario y la contraseña como parámetros, en lugar de tenerlos "hardcoded" (es decir, fijos en el código).
+    Uso de variables de entorno: En lugar de almacenar la contraseña en el código, se utilizarán variables de entorno para mantener estos valores seguros.
+    Estructura del código: Se crea un archivo para almacenar los detalles del usuario (nombre de usuario y contraseña) en un objeto exportado desde un archivo llamado detallesUsuario.js. Esta información es importada y utilizada en otras partes del código.
+    Prueba del código: Después de hacer los cambios, se ejecutan pruebas para asegurarse de que la funcionalidad sigue siendo la misma.
+En la próxima lección, se aprenderá cómo manejar las variables de entorno para almacenar secretos de manera segura.
+
+*** 47. Environment variables (userDetails.js)
+        ** en terminal se ejecuta $env:ADMIN_PASSWORD="Admin123"; npm test
+En esta lección, se trata de cómo manejar de manera segura las contraseñas y otros datos sensibles utilizando variables de entorno en lugar de incluirlos directamente en el código. Aquí está el resumen:
+¿Qué son las variables de entorno?
+    Son variables que se definen fuera del programa, y se pasan al entorno de ejecución (como Node.js) para ser utilizadas dentro del código.
+    Se suelen escribir en mayúsculas y con guiones bajos (ej. ADMIN_PASSWORD).
+Uso de variables de entorno en Node.js:
+    El objeto process.env de Node.js se utiliza para acceder a las variables de entorno.
+    Se reemplaza la contraseña hardcoded con process.env.ADMIN_PASSWORD, que se tomará de las variables de entorno.
+Establecer variables de entorno:
+    Se pueden establecer temporalmente variables de entorno en la terminal antes de ejecutar un comando. Por ejemplo, usando ADMIN_PASSWORD=admin123 npm test.
+    Sin embargo, esto no es ideal en aplicaciones grandes, ya que se tendrían que escribir muchas variables para varios usuarios.
+Archivo .env:
+    Se crea un archivo .env donde se guardan todas las variables de entorno de manera segura (por ejemplo, ADMIN_PASSWORD=admin123).
+    Este archivo no debe ser subido a Git, por lo que se añade al archivo .gitignore para evitar que sea compartido públicamente.
+Uso de la librería dotenv:
+    Se utiliza el paquete dotenv para cargar las variables del archivo .env al entorno de ejecución.
+    Se instala usando npm install dotenv, y luego se importa y configura al inicio del archivo de código.
+Prueba:
+Después de configurar correctamente las variables de entorno, se ejecuta la prueba, y el código funciona correctamente con la contraseña extraída del archivo .env.
+El objetivo de esta lección es mejorar la seguridad del código evitando que datos sensibles como contraseñas queden expuestos en el código fuente. En el siguiente video se explorará cómo aplicar estas configuraciones a todo el proyecto de manera más eficiente.
+
+*** 48. globalSetup: Calling functions before all tests ((  globalSetup: require.resolve(),))
+En esta lección, se continúa trabajando con variables de entorno, pero con un enfoque para hacer que la configuración sea más eficiente y evitar duplicación de código. Aquí está el resumen:
+    Problema de duplicación: En la lección anterior, se utilizó dotenv para cargar las variables de entorno, pero el código de configuración estaba duplicado en varios archivos de prueba. Esto no es ideal y se busca una solución para centralizar la configuración.
+    Configuración global con Playwright:
+        Se introduce el concepto de configuración global en Playwright, lo que permite ejecutar una función antes de todas las pruebas, evitando tener que configurar las variables de entorno en cada archivo de prueba.
+        Esto se logra usando el archivo de configuración de Playwright (playwright.config.js) y la función globalSetup.
+    Uso de require.resolve:
+        Se emplea require.resolve para importar el archivo de configuración global. Aunque se menciona que este es un detalle específico de Playwright, el enfoque general es que la función de configuración global se ejecute antes de las pruebas.
+    Creación del archivo globalSetup.js:
+        Se crea un archivo globalSetup.js donde se exporta una función que configura las variables de entorno (como dotenv.config()).
+        Este archivo se importa en la configuración de Playwright, y la función se ejecuta antes de cualquier prueba.
+    Eliminación de duplicación:
+        Después de implementar la configuración global, se eliminan las importaciones duplicadas de dotenv en los archivos de prueba, ya que la configuración se maneja de manera centralizada.
+    Secreto y seguridad:
+        Se destaca cómo ahora las credenciales (como la contraseña) ya no están codificadas directamente en el código, sino que se leen desde las variables de entorno.
+        Además, el archivo .env se maneja de forma segura usando .gitignore, evitando que se suba al repositorio y manteniendo las credenciales en secreto.
+El objetivo de esta lección es mejorar la organización y seguridad del código al manejar las configuraciones de variables de entorno de manera centralizada y global, evitando duplicación y exponiendo menos información sensible.
+
+***49. Mocking network requests
+En esta lección, se introduce el concepto de simular (mocking) en las solicitudes de red para pruebas automatizadas. El objetivo es simular respuestas de red sin depender de un servidor real, lo que permite controlar escenarios específicos y verificar cómo se comporta la aplicación bajo diferentes condiciones.
+Aquí está el resumen de los puntos clave:
+    Solicitudes de Red:
+        Se explica cómo las aplicaciones web hacen solicitudes de red, por ejemplo, cuando se carga una página o se solicita información de la API.
+        Un ejemplo muestra cómo una solicitud GET a una API de usuario devuelve datos en formato JSON.
+    Simulación de Errores en Solicitudes de Red:
+        El objetivo es probar cómo la aplicación maneja errores de red, como cuando una solicitud devuelve un código de error 500.
+        Esto se logra usando la capacidad de Playwright para simular una solicitud de red.
+    Uso de la Función route en Playwright:
+        Se utiliza page.route() de Playwright para interceptar y modificar las solicitudes de red antes de que se realicen.
+        La función permite simular una respuesta falsa, como cambiar el código de estado a 500 y enviar un mensaje de error simulado.
+    Proceso de Configuración de la Simulación:
+        La simulación se configura antes de que ocurra cualquier acción en la prueba (por ejemplo, después de iniciar sesión pero antes de visitar una página).
+        Se utiliza una URL para coincidir con las solicitudes de la API de usuario y se especifican los detalles de la respuesta simulada, como el estado 500, el tipo de contenido y el cuerpo del mensaje de error.
+    Verificación de la Respuesta Simulada:
+        Después de configurar la simulación, se utiliza la herramienta de desarrollo del navegador para verificar que la solicitud de red ha sido modificada correctamente.
+        Se comprueba que la solicitud realmente devuelve un código de estado 500 y la respuesta simulada en formato JSON.
+    Esperando el Error en la Aplicación:
+        Se crea un localizador CSS para el mensaje de error en la interfaz de usuario y se usa una función asíncrona para esperar hasta que el error aparezca en la página.
+        Esto asegura que el error se muestre correctamente en la aplicación cuando se simula el fallo de la solicitud de red.
+    Ampliación de Pruebas:
+        La simulación de solicitudes de red abre muchas posibilidades, como probar cómo la aplicación maneja respuestas incompletas o errores específicos en los datos de la API.
+
+Esta técnica es poderosa porque permite controlar situaciones que serían difíciles de replicar con un servidor real.
+En resumen, simulación de las solicitudes de red es una herramienta poderosa en las pruebas automatizadas que permite controlar y simular diferentes escenarios de red, como errores, sin depender de un servidor real. Esto es útil para asegurar que la aplicación maneje correctamente situaciones anómalas o inesperadas.
+
+

@@ -1,0 +1,32 @@
+En esta lección, se introducen los objetos de página y cómo utilizarlos en las pruebas de extremo a extremo con Playwright. Aquí está el resumen de los puntos clave:
+
+Creación de una prueba de extremo a extremo:
+
+Se comienza con la creación de una prueba para simular un viaje completo del usuario.
+El archivo de prueba se organiza utilizando la función test de Playwright, donde se define el nombre de la prueba y su función de ejecución.
+Uso de dot only para ejecutar una sola prueba:
+
+Se explica el uso de test.only para ejecutar una prueba específica sin que las demás se ejecuten, lo que facilita el enfoque en un solo caso mientras se está desarrollando.
+Introducción a los objetos de página:
+
+La lección explica cómo organizar y abstraer el código mediante objetos de página. Estos son clases que representan páginas de la aplicación y que contienen métodos específicos para interactuar con esas páginas.
+La primera clase creada es ProductPage, que tiene un método visit para navegar a la página del producto.
+Creación de una clase de página:
+
+Se crea una clase llamada ProductPage, que contiene métodos como visit, para navegar a la página del producto. La página se asigna a través de un constructor que toma la página como parámetro.
+Se usa la palabra clave this para asignar la página a una propiedad de la clase, haciendo que la página esté disponible en toda la clase.
+Estructura de archivos y convenciones:
+
+Se crea una estructura de carpetas que contiene los objetos de página en una carpeta separada (page objects), lo que permite organizar mejor el código.
+Se usa la convención de PascalCase para los nombres de las clases (por ejemplo, ProductPage).
+Instanciación y uso de objetos de página en pruebas:
+
+En el archivo de prueba, se importa el objeto de página y se instancia una nueva clase de página utilizando new ProductPage().
+El método visit de la clase se llama dentro de la prueba para navegar a la página del producto.
+Importación de objetos de página:
+
+Se explica cómo importar la clase del objeto de página desde otra carpeta utilizando rutas relativas, lo que facilita la organización y reutilización del código.
+Resumen:
+
+El uso de objetos de página ayuda a hacer que las pruebas sean más legibles y reutilizables al abstraer la interacción con las páginas de la aplicación en clases y métodos específicos.
+La lección concluye destacando la importancia de los objetos de página para organizar las pruebas de manera más efectiva y cómo esta estructura será utilizada a lo largo del curso para mantener el código limpio y modular.

@@ -1,0 +1,72 @@
+En esta lección, el objetivo es aleatorizar los correos electrónicos y contraseñas para poder registrar nuevos usuarios sin usar siempre las mismas credenciales, lo que causaba un error en las pruebas previas debido a la reutilización de datos estáticos.
+El proceso comienza mostrando cómo se genera un error cuando se intenta registrar un correo electrónico repetido, y luego se introduce el concepto de UUID (Identificador Único Universal) como una solución. Este tipo de identificador es una cadena aleatoria, casi imposible de repetir debido a su largo formato hexadecimal, lo que lo hace perfecto para pruebas y bases de datos.
+Para generar estos identificadores en JavaScript, se utiliza una dependencia externa llamada UUID, que se instala a través de NPM (Node Package Manager). En la lección, se explica cómo instalar esta dependencia y cómo usarla en el código para generar identificadores únicos tanto para los correos electrónicos como para las contraseñas.
+Una vez que se instala y configura UUID, se crea una función para generar un correo electrónico aleatorio utilizando el formato uuidv4(). También se genera una contraseña aleatoria usando el mismo proceso. Finalmente, se ejecutan las pruebas con éxito al aleatorizar estos datos, lo que resuelve el error mencionado anteriormente.
+La lección concluye indicando que, en el siguiente video, se tratará cómo generar estos correos electrónicos y contraseñas de manera externa, en lugar de generarlos dentro del código, para mayor flexibilidad y eficiencia.
+
+****Method arguments - passing data into our page object from outside
+el objetivo es modificar el código para que el correo electrónico y la contraseña sean pasados como parámetros en lugar de ser generados dentro de la función signUpAsNewUser.
+Resumen del proceso:
+    Eliminación de la generación interna de correo y contraseña: Primero, se eliminan las líneas de código que generaban los correos electrónicos y contraseñas aleatorios dentro del método signUpAsNewUser.
+    Paso de valores externos: Ahora, en lugar de generar el correo y la contraseña dentro de la función, se pasarán como parámetros desde fuera. Para ello, en la prueba principal (especificación de viaje completo), se crean variables para el correo electrónico y la contraseña utilizando UUID. Estos valores se generarán antes de llamar al método signUpAsNewUser y luego se pasarán como argumentos a la función.
+    Importación de UUID: Como la función UUID no estaba importada en la especificación de viaje completo, se mueve la importación del paquete UUID a la parte superior de ese archivo para que esté disponible cuando se necesite generar los identificadores.
+    Reorganización y limpieza del código: Se reorganizan las importaciones para que todo esté bien estructurado, y se cambian las comillas simples a comillas dobles, siguiendo la convención de estilo del proyecto.
+    Pruebas: Al ejecutar las pruebas, el proceso de registro sigue funcionando correctamente, ahora utilizando el correo electrónico y la contraseña proporcionados desde fuera del método.
+
+Conclusión:
+Se aprende a pasar valores a los métodos desde fuera de la función, lo que hace que el código sea más flexible y limpio, permitiendo reutilizar el código de manera más eficiente.
+
+**** Form fields: Fill out delivery details
+En este video, se explica cómo continuar con la automatización de un formulario de registro, en particular, cómo rellenar los detalles de la entrega en una página web utilizando Playwright.
+Resumen de los puntos clave:
+    ellenar el formulario de detalles de entrega:
+        El objetivo es agregar un formulario donde se ingresarán datos como nombre, apellido, dirección, ciudad, código postal y país.
+        Se crea un objeto de página para manejar el formulario de detalles de entrega.
+    Eliminación de pausas innecesarias:
+        Se retira una pausa innecesaria que se había dejado en la lección anterior (page.pause()), ya que no siempre es necesario pausar la página.
+    Estrategia de localización de elementos:
+        Para identificar los campos en el formulario, se utilizan selectores de datos (como data-*), ya que son más robustos que los basados en placeholder.
+        Alternativamente, se pueden usar los selectores getByPlaceholder si se prefiere.
+    Codificación de los datos:
+        Los campos se rellenan con datos ficticios, como un nombre, apellido, dirección de calle, código postal y ciudad.
+        Se copian y modifican las líneas de código para rellenar los diferentes campos rápidamente.
+    Selección del país en el desplegable:
+        Para el campo de selección del país, se utiliza un selector CSS para interactuar con el desplegable y seleccionar un país específico (en este caso, "Estados Unidos de América").
+    Optimización de la página de prueba:
+        Después de hacer todos los cambios, se realiza una prueba completa del flujo, asegurando que todos los campos se llenen correctamente y que el formulario funcione.
+Próximos pasos:
+En la siguiente lección, se moverán las cadenas codificadas (como los datos de los formularios) a un archivo separado, para hacer el código más limpio y organizado.
+En resumen, el video muestra cómo completar el proceso de automatización para llenar un formulario de entrega, utilizando buenas prácticas de codificación y asegurándose de que los selectores sean robustos y reutilizables.
+
+**** 25. Form fields: Fill out delivery details
+Objetivo de la lección:
+En esta lección se trabaja en llenar un formulario de detalles de entrega con información codificada. Se planea mejorar el código y gestionar las variables de manera más eficiente.
+Preparación:
+    Se eliminan remanentes de la lección anterior (como la pausa de página que se había dejado) y se importa un objeto de página para los detalles de entrega.
+Creación de la clase de detalles de entrega:
+    Se crea una nueva clase llamada DeliveryDetails que tiene un constructor que toma la página como parámetro. Se asignan las propiedades necesarias, como los campos de entrada (nombre, apellido, dirección, etc.), utilizando selectores (por ejemplo, data-qa="delivery-first-name").
+Llenado de los detalles:
+    Se define un método fillDeliveryDetails() que se encarga de llenar los campos de entrada con información ficticia (nombre, apellido, dirección, código postal, etc.).
+Selección de valores:
+    Para los campos de texto, se utiliza el método waitFor() para esperar a que los campos estén disponibles antes de llenarlos. Luego, se usan valores codificados (como "tester", "McTester", "principal", etc.) para rellenar los campos.
+Manejo de selectores:
+    Se discute el uso de selectores como getByPlaceholder o data-qa. Se prefiere utilizar los selectores data-qa ya que son más robustos y específicos para las pruebas.
+Desplegables (select) y su selección:
+    Se hace especial énfasis en cómo manejar los desplegables (como el campo de país). El valor que se selecciona en el desplegable debe coincidir con el valor en el HTML (por ejemplo, "United States" para seleccionar Estados Unidos).
+Pruebas:
+    Se recomienda probar el código paso a paso y validar que el formulario se llena correctamente.
+Próximos pasos:
+    En la siguiente lección, se moverán las cadenas codificadas (como los valores de los campos) a un archivo separado, ya que actualmente están dentro del objeto de página, lo que puede resultar confuso.
+
+
+**** 26. Abstracting test data: Move user details into data-specific directory
+
+En esta lección, lo que se busca es mejorar la estructura y flexibilidad del código al separar los datos de prueba del objeto de página. El objetivo es evitar que los objetos de página contengan valores fijos (hardcoded), como los detalles de la entrega, y que estos se gestionen en un archivo separado. Aquí está el resumen de lo que se cubrió:
+Separación de Datos y Lógica: Se discute que los objetos de página solo deben conocer los elementos de la página web, no los valores específicos de los datos de prueba. Los detalles de la entrega (como nombre, apellido, dirección, etc.) deben gestionarse por separado, lo que facilita la reutilización y mantenimiento del código.
+Uso de Objetos en JavaScript: Se introduce el concepto de objetos en JavaScript. Un objeto es una estructura que contiene propiedades (o claves) y valores asociados, como un diccionario. Se utiliza un objeto para almacenar todos los detalles de la entrega, como nombre, apellido, calle, código postal, ciudad y país.
+Creación del Archivo de Datos: Se crea un archivo llamado detalles-de-entrega.js dentro de una nueva carpeta llamada "Datos". Este archivo contiene un objeto con las propiedades necesarias para completar los datos de entrega.
+Exportación e Importación del Objeto: El objeto detalles-de-entrega se exporta desde su archivo y luego se importa en el archivo de prueba. Se discute cómo evitar un choque de nombres entre el objeto de datos y las variables del archivo de prueba, renombrando el objeto importado (por ejemplo, a direccionDeUsuario).
+Uso de los Datos en la Función de Rellenar los Detalles: Una vez importado el objeto con los detalles de la entrega, se pasa a la función que llena los formularios en la página. La función ahora usa las propiedades del objeto (direccionDeUsuario.firstName, direccionDeUsuario.lastName, etc.) para llenar los campos del formulario.
+Ventaja de la Flexibilidad: Esta estructura permite que cualquier cambio en los datos de prueba (por ejemplo, cambiar el nombre o la ciudad) se realice fácilmente en el archivo de datos, y esos cambios se reflejan automáticamente en las pruebas sin tener que modificar el objeto de la página.
+En resumen, el objetivo es hacer que el código sea más modular y flexible, separando los datos de prueba de la lógica del objeto de página y utilizando objetos de JavaScript para organizar y gestionar los datos de manera eficiente. Esto también facilita la actualización de los datos sin necesidad de tocar el código de las pruebas.
+
