@@ -34,4 +34,56 @@ Finalmente, se ejecutan las pruebas en ambos navegadores y se confirma que todo 
         Asociar .skyp a los que queremos que salte
         Quitar .only para evitar fallos
         Hacer cambios en playwriht.config.js (forbidOnly:false, )
+
+
+*** 55. Upload project to GitHub
+
+se explica cómo subir el código de un proyecto a GitHub. El proceso comienza creando un nuevo repositorio en GitHub, asignándole un nombre y configurando si será público o privado. Luego, se utiliza el comando git init para inicializar un repositorio local y se añaden los archivos al repositorio con git add ..
+Se realiza un commit con el mensaje "Inicializar proyecto dramaturgo" para guardar los cambios en el repositorio local. Posteriormente, se establece la rama principal y se empuja el proyecto a GitHub con el comando git push, asegurándose de usar SSH para la autenticación y evitando posibles errores al configurar correctamente la rama remota con git push --set-upstream origin main.
+Finalmente, se verifica en GitHub que el proyecto se haya subido correctamente y se explica cómo las ramas y los commits funcionan en Git. El video concluye con el proyecto ahora disponible en GitHub, listo para comenzar a trabajar con acciones de GitHub.
+
+ 1. git init (inicializa un nuevo repositorio )
+ 2. git commit -m "first commit" ( se utiliza para guardar los cambios realizados en el repositorio local de Git.)
+       - git commit: Este comando crea un "commit", que es como un punto de control o una instantánea de los archivos en el repositorio
+       - La opción -m permite añadir un mensaje descriptivo al commit.
+       - "first commit" es un mensaje simple que indica que este es el primer commit del proyecto.
+    Error **genera mensaje de que existen archivos que son nuevos para Github 
+        Solucion *** gid add . (.todo)
+ 3.Nuevamente ejecutar git commit -m "fist comit"
+ 4. git branch -M main (se utiliza en Git para renombrar una rama)
+       - git branch: Este es el comando que se usa para gestionar las ramas en Git. Te permite crear, listar, eliminar o renombrar ramas.
+       - -M: Es una opción que le indica a Git que renombre la rama,
+       - main: Este es el nombre de la nueva rama que quieres asignar.
+ 5. git remote add origin git@github.com:NatalyQB/Playwright-course.git (se usa para vincular un repositorio local de Git a un repositorio remoto en GitHub)
+       - git remote es el comando que se usa para gestionar los repositorios remotos en Git
+       - add es una subcomando que se usa para agregar un repositorio remoto a tu repositorio local.
+       - origin es el nombre que se le da comúnmente al repositorio remoto.
+       - git@github.com:NatalyQB/Playwright-course.git:Esta es la URL del repositorio remoto en GitHub, en formato SSH.
+   *** Si se ejecuta git push genera errores
+    Error: fatal: The current branch master has no upstream branch. (no existe una rama llamada master)
+        Solución: git push --set-upstream origin master
+
+ *** 56. GitHub Actions: First step
+Se explica cómo configurar una tubería de acciones de GitHub para ejecutar pruebas automáticamente usando Playwright. El proceso incluye los siguientes pasos:
+Crear el directorio de GitHub Actions:
+    Se crea una carpeta oculta llamada .github en el proyecto.
+    Dentro de esta, se crea otra carpeta llamada workflows, donde se guardarán los archivos de configuración para las acciones de GitHub.
+Configurar el archivo de flujo de trabajo:
+    Se crea un archivo YAML (por ejemplo, playwright.yaml) para definir el flujo de trabajo que se ejecutará en GitHub Actions.
+En el archivo, se especifica:
+    Nombre del flujo de trabajo (playwright tests).
+    Eventos que activan la ejecución, como un push a la rama main.
+Entorno de ejecución: se configura para usar un sistema operativo Linux (Ubuntu).
+Definir los pasos de la acción:
+    Se configura un primer paso que utiliza una acción proporcionada por GitHub para verificar el repositorio.
+    Luego, se agrega un paso que ejecuta un comando simple para imprimir "Hola" en la terminal con echo.
+Realizar un commit y empujar los cambios:
+    Después de crear el archivo de flujo de trabajo, se añaden los cambios al repositorio local y se hace un commit con el mensaje "Primera versión del flujo de trabajo de GitHub Actions".
+    Luego, se empuja este commit al repositorio remoto en GitHub.
+Verificación en GitHub:
+    Una vez subido el código, se actualiza la página en GitHub, donde se puede ver que el flujo de trabajo fue ejecutado.
+    Se muestra que se corrió el comando echo que imprime "Hola" como parte de los pasos definidos.
+En resumen, la lección cubre cómo crear y configurar un flujo de trabajo en GitHub Actions para ejecutar pruebas (o cualquier tarea automatizada) en un repositorio, y cómo verificar su ejecución.
+
+
 ***

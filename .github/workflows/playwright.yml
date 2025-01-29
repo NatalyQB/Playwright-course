@@ -1,0 +1,17 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches:
+      - master  # o 'main' si tu rama principal es 'main'
+
+jobs:
+  playwrighttests:
+    runs-on: ubuntu-latest  # 'runs-on' en lugar de 'run-on'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Say hello
+        run: echo Hello
